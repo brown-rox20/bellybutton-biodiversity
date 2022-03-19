@@ -74,6 +74,7 @@ function buildCharts(sample) {
     //  so the otu_ids with the most bacteria are last.
 
     var yticks = otu_ids.slice(0, 10).map((otu_id) => "OTU " + otu_id);
+
     // 8. Create the trace for the bar chart.
     var barData = [
       {
@@ -118,5 +119,51 @@ function buildCharts(sample) {
 
     // 3. Use Plotly to plot the data with the layout.
     Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+
+    // Gauge chart
+    // 1. Create a variable that filters the metadata array for the object with the desired sample number.
+    var filteredMetadata = data.metadata.filter(
+      (metadataObject) => metadataObject.id == sample
+    );
+
+    // 2. Create a variable that holds the first sample in the metadata array.
+    var firstMetadata = filteredMetadata[0];
+
+    // 3. Create a variable that holds the washing frequency.
+    var washingFrequency = parseInt(firstMetadata.wfreq);
+
+    // 4. Create the trace for the gauge chart.
+    var gaugeData = [
+      {
+        domain: { x: [0, 1], y: [0, 1] },
+        value: washingFrequency,
+        type: "indicator",
+        mode: "gauge+number",
+        title: {
+          text: "<b>Belly Button Washing Frequency</b> <br> Number of Scrubs per Week",
+        },
+        gauge: {
+          axis: { range: [null, 10] },
+          bar: { color: "black" },
+          steps: [
+            { range: [0, 2], color: "red" },
+            { range: [2, 4], color: "orange" },
+            { range: [4, 6], color: "yellow" },
+            { range: [6, 8], color: "lightgreen" },
+            { range: [8, 10], color: "green" },
+          ],
+        },
+      },
+    ];
+
+    // 5. Create the layout for the gauge chart.
+    var gaugeLayout = {
+      width: 600,
+      height: 500,
+      margin: { t: 0, b: 0 },
+    };
+
+    // 6. Use Plotly to plot the gauge data and layout.
+    Plotly.newPlot("gauge", gaugeData, gaugeLayout);
   });
 }
