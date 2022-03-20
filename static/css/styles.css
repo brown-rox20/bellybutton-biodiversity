@@ -1,0 +1,14 @@
+.jumbotron {
+  background-image: url("../images/bellybutton-biodiversity.jpeg");
+}
+
+.jumbotron h1,
+p {
+  color: white;
+  font-family: Futura;
+}
+
+.gray-background {
+  padding: 1em;
+  background-color: rgba(60, 60, 60, 0.75);
+}
